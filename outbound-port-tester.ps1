@@ -4,11 +4,14 @@
 
 $port = @(21,22,23,25,80,443,445,3389,8080,8443)
 $test = ""
+$results = @()
 
 ForEach($p in $port) {
 	$test = Test-NetConnection -WarningAction silentlyContinue -InformationLevel quiet -ComputerName portquiz.net -Port $p
 	
 	if ($test) {
-		$p | Out-File -Append -FilePath ./open-ports.txt
+		$results += $p
 	}
 }
+
+Write-Host "Following Outbound Ports are open: $results"
